@@ -1,0 +1,4 @@
+the largest waste with current programming technologies comes from waiting for I/O to complete. 
+synchronous: you handle one request at a time, each in turn. pros: simple cons: any one request can hold up all the other requests
+fork a new process: you start a new process to handle each request. pros: easy cons: does not scale well, hundreds of connections means hundreds of processes. fork() is the Unix programmer's hammer. Because it's available, every problem looks like a nail. It's usually overkill
+threads: start a new thread to handle each request. pros: easy, and kinder to the kernel than using fork, since threads usually have much less overhead cons: your machine may not have threads, and threaded programming can get very complicated very fast, with worries about controlling access to shared resources.
