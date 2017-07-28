@@ -44,7 +44,76 @@ app.use(function (req, res, next) {
 
 
 
+```
+const http = require('http');
+
+const server = http.createServer(function (req, res) {
+
+    if (req.url === '/') { //check the URL of the current request
+
+        console.log("New request to main page at " + Date())
+
+        // set response header
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+
+        // set response content    
+        res.write('<html><body><h1>This is home Page.</h1></body></html>');
+        res.write('<h2>The time is: ' + Date() + '</h2>');
+        res.end();
+
+    } else if (req.url === "/student") {
+
+        console.log("New request to Student page at " + Date())
+
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.write('<html><body><h1>This is student Page.</h1></body></html>');
+        res.end();
+
+    } else if (req.url === "/mentor") {
+
+        console.log("New request to Mentor page at " + Date())
+
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.write('<html><body><h1>This is mentor Page.</h1></body></html>');
+        res.end();
+
+    }
+
+    else {
+        res.end('<html><body><h2>Invalid Request at ' + Date() + '</h2></body></html>');
+    }
+});
+
+server.listen(5000);
+
+console.log('Node.js web server at port 5000 is running..')
+```
+
+Example
+
+Here is an example of a simple “Hello World” Express application. The remainder of this article will define and add two middleware functions to the application: one called myLogger that prints a simple log message and another called requestTime that displays the timestamp of the HTTP request.
+```
+var express = require('express')
+var app = express()
+
+var myLogger = function (req, res, next) {
+  console.log('LOGGED')
+  next()
+}
 
 
+app.get('/', function (req, res) {
+  res.send('Hello World!')
+})
+
+
+app.use(myLogger)
+app.listen(3000)
+```
+
+Every time the app receives a request, it prints the message “LOGGED” to the terminal.
+The order of middleware loading is important: middleware functions that are loaded first are also executed first.
+If myLogger is loaded after the route to the root path, the request never reaches it and the app doesn’t print “LOGGED”, because the route handler of the root path terminates the request-response cycle.
+The middleware function myLogger simply prints a message, then passes on the request to the next middleware function in the stack by calling the next() function.
 
 
