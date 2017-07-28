@@ -1,8 +1,43 @@
-the largest waste with current programming technologies comes from waiting for I/O to complete. 
-synchronous: you handle one request at a time, each in turn. pros: simple cons: any one request can hold up all the other requests
-fork a new process: you start a new process to handle each request. pros: easy cons: does not scale well, hundreds of connections means hundreds of processes. fork() is the Unix programmer's hammer. Because it's available, every problem looks like a nail. It's usually overkill
-threads: start a new thread to handle each request. pros: easy, and kinder to the kernel than using fork, since threads usually have much less overhead cons: your machine may not have threads, and threaded programming can get very complicated very fast, with worries about controlling access to shared resources.
-https://www.npmjs.com/package/lifecycle-node
+ #  ![Node](https://heroku-elements.s3.amazonaws.com/buttons/uploaded_logos/000/002/550/icon/nodejs.png?1476395955) Request Life Cycle
+
+**Request–response, or request–reply** is one of the basic methods computers use to communicate with each other, in which the first computer sends a request for some data and the second computer responds to the request.
+
+**Request–response** is a message exchange pattern in which a requestor sends a request message to a replier system which receives and processes the request, ultimately returning a message in response. This is a simple, but powerful messaging pattern which allows two applications to have a two-way conversation with one another over a channel. This pattern is especially common in client–server architectures.
+
+### Request-response lifecycle through a middleware is as follows:
+Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named next.
+
+Middleware functions can perform the following tasks:
+
+    Execute any code.
+    Make changes to the request and the response objects.
+    End the request-response cycle.
+    Call the next middleware function in the stack.
+    
+```    
+var app = express()
+
+app.use(function (req, res, next) {
+  console.log('Time:', Date.now())
+  next()
+})
+```
+
+
+*If the current middleware function does not end the request-response cycle, it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.*
+    
+
+![lifeCycle](https://vietcanho.files.wordpress.com/2016/06/middleware.png?w=1462)
+
+
+
+### Amazone Web Service
+![lifeCycle](https://image.slidesharecdn.com/5-160503081810/95/javascript-nodejs-development-on-amazon-web-services-33-638.jpg?cb=1462263535)
+
+
+
+The largest waste with current programming technologies comes from waiting for I/O to complete. 
+
 When Node receives an HTTP request, it creates the req and res objects (which begin their life as instances of http.IncomingMessage and http.ServerResponse respectively). The intended purpose of those objects is that they live as long as the HTTP request does. That is, the client makes an HTTP request, the req and res objects are created, a bunch of stuff happens, and finally a method on res is invoked that sends an HTTP response back to the client, and at that point the objects are no longer needed.
 
 Because of Node's asynchronous nature, there could be multiple req and res objects at any given time, distinguished only by the scope in which they live. This may sound confusing, but in practice, you never have to worry about that: when you write your code, you write it as if you were always ever dealing with one HTTP request, and your framework (Express, for example), manages multiple requests.
@@ -16,17 +51,5 @@ app.use(function(req, res, next) {
 });
 The reason this is a terrible idea is that if you never remove objects from allRequests, your server will eventually run out of memory as it processes traffic.
 
-Typically, with Express, you'll rely on asynchronous functions that invoke a callback once they've done their work. If the callback function has a reference to the req or res objects, they will not be deallocated until the asynchronous function completes and the callback executes (and all other references are out of scope, naturally). Here's a simple example that just generates an artificial delay:
 
-app.get('/fast', function(req, res) {
-    res.send('fast!');
-});
 
-app.get('/slow', function(req, res) {
-    setTimeout(function() {
-        res.send('sloooooow');
-    }, 3000);
-});
-If you navigate to /slow, your browser will spin for 3 seconds. In another browser, if you access /fast a bunch of times, you'll find that it still works. That's because Express is creating a req and  res object for each request, none of which interfere with each other. But the res object associated with the /slow request is not deallocated because the callback (which is holding a reference to that instance) hasn't executed.
-
-At the end of the day, I feel like you're overthinking things. It's good to understand the fundamentals, certainly, but for the most part, reference counting and garbage collection in JavaScript is not something you have to think about or manage.
