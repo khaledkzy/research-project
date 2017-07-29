@@ -2,7 +2,7 @@
 
 **Request–response, or request–reply** is one of the basic methods computers use to communicate with each other, in which the first computer sends a request for some data and the second computer responds to the request.
 
-The largest waste with current programming technologies comes from waiting for I/O to complete. 
+The largest waste with current programming technologies comes from waiting for Req/RES to complete. 
 
 When Node receives an HTTP request, it creates the req and res objects (which begin their life as instances of http.IncomingMessage and http.ServerResponse respectively). The intended purpose of those objects is that they live as long as the HTTP request does.
 
