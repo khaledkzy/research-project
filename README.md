@@ -1,7 +1,5 @@
 # research-project
-Performance: Request lifecycle, Performance considerations and optimisations
-
-
+ 
 
 ## Preface
 ####  Developed by Ryan Dahl pada tahun 2009
@@ -12,11 +10,14 @@ Performance: Request lifecycle, Performance considerations and optimisations
 ####  The goal is to provide an easy way to build scalable network servers
  
  Node is a server side JavaScript environment for developing web applications, application servers, any sort of network server or client, and general purpose programming.
+
+ ![GitHub Logo](node.jpg)
  
  Node.js is the leading tool for creating server applications in JavaScript, the world’s most popular programming language. Offering the functionality of both a web server and an application server, Node.js is now considered a key tool for all kinds of microservices‑based development and delivery. 
  
  Node.js is single‑threaded and uses nonblocking I/O, allowing it to scale and support tens of thousands of concurrent operations. It shares these architectural characteristics
  
+
  
   Designed for high concurrency
   Without threads or newa processes
@@ -96,7 +97,8 @@ Similar languaging between server and client teams
  
  
  ![GitHub Logo](node-queue.jpg)
-Format: ![Alt Text](url)
+ 
+
 
 
  
@@ -124,6 +126,10 @@ Format: ![Alt Text](url)
   Client-side JS makes heavy use of the DOM, no access to files/databases
   Server-side JS deals mostly in files/databases, no DOM
   JS Dom project for Node works for simple tasks, but not much else
+
+ ![GitHub Logo](con.jpg)
+
+
 
 Threads VS Event-driven
 
@@ -208,19 +214,19 @@ Using multithreading environments where listener and workers threads are used fr
 1. Implement a reverse proxy server
 
 ![GitHub Logo](1.png)
-Format: ![Alt Text](url)
+ 
 
 1. Cache static files
 1. Load balance traffic across multiple servers
 1. Proxy WebSocket connections
 
 ![GitHub Logo](4.png)
-Format: ![Alt Text](url)
+ 
 
 1. Implement SSL/TLS and HTTP/2
 
 ![GitHub Logo](5.png)
-Format: ![Alt Text](url)
+ 
 
 
  
